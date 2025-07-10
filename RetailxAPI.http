@@ -1,0 +1,9 @@
+@RetailxAPI_HostAddress=https://localhost:7068 
+//http://localhost:5202
+
+GET {{RetailxAPI_HostAddress}}/api/User/
+Accept: application/json
+
+###
+POST {{RetailxAPI_HostAddress}}/User/
+Accept: application/json
