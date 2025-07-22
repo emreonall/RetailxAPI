@@ -12,11 +12,11 @@ namespace RetailxAPI.Data
         {
             base.OnModelCreating(modelBuilder);
 
-         
-            modelBuilder.Entity<QformCategory>().HasNoKey();
-            modelBuilder.Entity<UserQform>().HasKey(u => new {u.QformId,u.UserId });
 
-            modelBuilder.Entity<CategoryQuestions>().HasKey(q => new { q.CategoryID, q.RowOrder });
+            modelBuilder.Entity<CategoryQuestions>().HasKey(cq => new { cq.CategoryID, cq.RowOrder });
+            modelBuilder.Entity<UserQform>().HasKey(u => new { u.QformId, u.UserId });
+            modelBuilder.Entity<UserQform>().HasKey(u => new { u.QformId, u.UserId });
+            modelBuilder.Entity<QformCategory>().HasKey(q => new { q.QformId, q.CategoryId });
 
             modelBuilder.Entity<Shop>().Property(s => s.Latitude)
                 .HasColumnType("NUMERIC(18,15)");
@@ -29,7 +29,7 @@ namespace RetailxAPI.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<CategoryQuestions> CategoryQuestions { get; set; }
         public DbSet<Qform> Qforms { get; set; }
-        public DbSet<QformCategory> QformCategories { get; set; }
+        public DbSet<QformCategory> QformCategory { get; set; }
         public DbSet<Shop> Shops { get; set; }
         public DbSet<UserQform> UserQform { get; set; }
     }

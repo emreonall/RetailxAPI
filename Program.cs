@@ -16,6 +16,7 @@ builder.Services.AddScoped<CategoryRepository>();
 builder.Services.AddScoped<QFormRepository>();
 builder.Services.AddScoped<UserQformRepository>();
 builder.Services.AddScoped<CategoryQuestionsRepository>();
+builder.Services.AddScoped<QFormCategoryRepository>();
 
 
 
