@@ -116,10 +116,10 @@ namespace RetailxAPI.Data.Repositories
             }
 
         }
-        public async Task<bool> AdminUserLogin(string userName)
+        public async Task<bool> AdminUserLogin(LoginModel model)
         {
             var existingUser = await _context.Users
-                .FirstOrDefaultAsync(user => user.UserName == userName);
+                .FirstOrDefaultAsync(user => user.UserName == model.UserName && user.Passwd==model.Passwd );
             if (existingUser == null)
             {
                 return false;

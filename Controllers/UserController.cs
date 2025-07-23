@@ -102,17 +102,20 @@ namespace RetailxAPI.Controllers
             }
             return BadRequest("Kullanıcı silinirken hata oluştu");
         }
-        [HttpGet("AdminLogin/{userName}")]
-        public async Task<IActionResult> AdminLogin(string userName)
+
+        [HttpPost("Login")]
+        public async Task<IActionResult> Login([FromBody] LoginModel loginModel)
         {
-            var user = await _userRepository.AdminUserLogin(userName);
+            if (loginModel == null || string.IsNullOrEmpty(loginModel.UserName) || string.IsNullOrEmpty(loginModel.Passwd))
+            {
+                return BadRequest("Kullanıcı adı ve şifre boş olamaz.");
+            }
+            var user = await _userRepository.AdminUserLogin(loginModel);
             if (user)
             {
-                return Ok();
-                
+                return Ok(user);
             }
-            return NotFound("Kullanıcı bulunamadı ya da Admin yetkisi yok.");
-
+            return Unauthorized("Geçersiz kullanıcı adı veya şifre.");
         }
     }
 }
