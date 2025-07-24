@@ -56,6 +56,11 @@ namespace RetailxAPI.Data.Repositories
         }
         public async Task<bool> AddUser(UserModel userModel)
         {
+            bool checkUserName = await _context.Users.AnyAsync(u => u.UserName == userModel.UserName);
+            if (checkUserName)
+            {
+                return false; // Kullanıcı adı zaten var
+            }
             var user = new User
             {
                 UserName = userModel.UserName,
@@ -78,6 +83,12 @@ namespace RetailxAPI.Data.Repositories
         }
         public async Task<bool> UpdateUser(UserModel userModel)
         {
+            bool checkUserName = await _context.Users.AnyAsync(u => u.UserName == userModel.UserName);
+            if (checkUserName)
+            {
+                return false; // Kullanıcı adı zaten var
+            }
+
             var user = await _context.Users.FindAsync(userModel.UserId);
             if (user == null)
             {
