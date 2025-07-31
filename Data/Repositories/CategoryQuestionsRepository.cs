@@ -26,7 +26,12 @@ namespace RetailxAPI.Data.Repositories
                     Answer2 = q.Answer2,
                     Answer3 = q.Answer3,
                     Answer4 = q.Answer4,
-                    Answer5 = q.Answer5
+                    Answer5 = q.Answer5,
+                    Answer1Puan = q.Answer1Puan,
+                    Answer2Puan = q.Answer2Puan,
+                    Answer3Puan = q.Answer3Puan,
+                    Answer4Puan = q.Answer4Puan,
+                    Answer5Puan = q.Answer5Puan
                 })
                 .ToListAsync();
         }
@@ -44,7 +49,12 @@ namespace RetailxAPI.Data.Repositories
                     Answer2 = q.Answer2,
                     Answer3 = q.Answer3,
                     Answer4 = q.Answer4,
-                    Answer5 = q.Answer5
+                    Answer5 = q.Answer5,
+                    Answer1Puan = q.Answer1Puan,
+                    Answer2Puan = q.Answer2Puan,
+                    Answer3Puan = q.Answer3Puan,
+                    Answer4Puan = q.Answer4Puan,
+                    Answer5Puan = q.Answer5Puan
                 }).ToList();
 
                 await _context.CategoryQuestions.AddRangeAsync(entities);
@@ -78,6 +88,12 @@ namespace RetailxAPI.Data.Repositories
                     match.Answer3 = item.Answer3;
                     match.Answer4 = item.Answer4;
                     match.Answer5 = item.Answer5;
+                    match.Answer1Puan = item.Answer1Puan;
+                    match.Answer2Puan = item.Answer2Puan;
+                    match.Answer3Puan = item.Answer3Puan;
+                    match.Answer4Puan = item.Answer4Puan;
+                    match.Answer5Puan = item.Answer5Puan;
+
                 }
             }
             try

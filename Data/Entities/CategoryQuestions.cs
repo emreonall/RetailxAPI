@@ -19,5 +19,10 @@ namespace RetailxAPI.Data.Entities
         public string? Answer4 { get; set; }
         [MaxLength(150)]
         public string? Answer5 { get; set; }
+        public short Answer1Puan { get; set; } = 0;
+        public short Answer2Puan { get; set; } = 0;
+        public short Answer3Puan { get; set; } = 0;
+        public short Answer4Puan { get; set; } = 0;
+        public short Answer5Puan { get; set; } = 0;
     }
 }
