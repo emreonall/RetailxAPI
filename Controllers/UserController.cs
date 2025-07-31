@@ -59,7 +59,7 @@ namespace RetailxAPI.Controllers
             var result = await _userRepository.AddUser(userModel);
             if (result)
             {
-                return CreatedAtAction(nameof(Get), new { id = userModel.UserId }, userModel);
+               return CreatedAtAction(nameof(Get), new { id = userModel.UserId }, userModel);
             }
             return BadRequest("Kullanıcı yaratılırken bir hata oluştu.");
         }

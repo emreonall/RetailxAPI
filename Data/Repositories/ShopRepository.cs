@@ -51,10 +51,27 @@ namespace RetailxAPI.Data.Repositories
                 Longitude = shopModel.Longitude,
                 Address = shopModel.Address
             };
-            
+
             try
             {
                 await _context.Shops.AddAsync(shop);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+        public async Task<bool> AddRange(List<Shop> shops)
+        {
+            if (shops == null || !shops.Any())
+            {
+                return false;
+            }
+            try
+            {
+                await _context.Shops.AddRangeAsync(shops);
                 await _context.SaveChangesAsync();
                 return true;
             }

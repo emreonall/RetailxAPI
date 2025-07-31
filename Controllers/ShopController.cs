@@ -1,6 +1,10 @@
 ﻿using RetailxAPI.Data.Models;
 using Microsoft.AspNetCore.Mvc;
 using RetailxAPI.Data.Repositories;
+using Microsoft.EntityFrameworkCore;
+
+using RetailxAPI.Data.Entities;
+using ClosedXML.Excel;
 
 namespace RetailxAPI.Controllers
 {
@@ -38,7 +42,7 @@ namespace RetailxAPI.Controllers
         }
         // POST api/<ShopController>
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]ShopModel shopModel)
+        public async Task<IActionResult> Post([FromBody] ShopModel shopModel)
         {
             if (shopModel == null)
             {
@@ -86,6 +90,52 @@ namespace RetailxAPI.Controllers
                 return Ok(new { message = "Mağaza başarıyla silindi." });
             }
             return BadRequest("Mağaza silinirken bir hata oluştu.");
+        }
+        [HttpPost("import")]
+        public async Task<IActionResult> Import(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+                return BadRequest("Dosya yüklenmedi.");
+
+            var shops = new List<Shop>();
+
+            using (var stream = new MemoryStream())
+            {
+                await file.CopyToAsync(stream);
+                using var workbook = new XLWorkbook(stream);
+
+                var worksheet = workbook.Worksheet(1);
+
+                foreach (var row in worksheet.RowsUsed().Skip(1))
+                {
+                    var shop = new Shop
+                    {
+                        ShopName = row.Cell(1).GetString().Trim(),
+                        ShopPhone = row.Cell(2).GetString().Trim(),
+                        Latitude = TryGetDecimal(row.Cell(3).GetValue<string>()),
+                        Longitude = TryGetDecimal(row.Cell(4).GetValue<string>()),
+                        Address = row.Cell(5).GetString().Trim()
+                    };
+                    shops.Add(shop);
+                }
+            }
+
+            var result = await _shopRepository.AddRange(shops);
+
+            if (!result)
+            {
+                return BadRequest("Mağazalar eklenirken bir hata oluştu.");
+            }
+            return Ok(new { Success = true, Count = shops.Count });
+        }
+        private decimal? TryGetDecimal(string? value)
+        {
+            if (decimal.TryParse(value, System.Globalization.NumberStyles.Any,
+                                 System.Globalization.CultureInfo.InvariantCulture, out var result))
+            {
+                return result;
+            }
+            return null;
         }
     }
 }
