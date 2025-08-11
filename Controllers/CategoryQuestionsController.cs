@@ -21,7 +21,7 @@ namespace RetailxAPI.Controllers
             var questions = await _categoryQuestionsRepository.GetCategoryQuestions(categoryId);
             if (questions == null || !questions.Any())
             {
-                return NotFound();
+                return Ok(new List<CategoryQuestionsModel>()); // Wrap the empty list in Ok() to return a valid IActionResult
             }
             return Ok(questions);
         }
