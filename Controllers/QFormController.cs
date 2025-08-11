@@ -20,7 +20,7 @@ namespace RetailxAPI.Controllers
             var qForms = await _qFormRepository.GetQForms();
             if (qForms == null)
             {
-                return NotFound();
+                return Ok(new List<QFormModel>());
             }
             return Ok(qForms);
         }

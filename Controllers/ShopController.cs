@@ -25,7 +25,7 @@ namespace RetailxAPI.Controllers
             var shopList = await _shopRepository.GetShops();
             if (shopList == null)
             {
-                return NotFound();
+                return Ok(new List<ShopModel>());
             }
             return Ok(shopList);
         }
@@ -36,7 +36,7 @@ namespace RetailxAPI.Controllers
             var shop = await _shopRepository.GetShopById(id);
             if (shop == null)
             {
-                return NotFound();
+                return NotFound("Kayıt bulunamadı...");
             }
             return Ok(shop);
         }

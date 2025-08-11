@@ -20,7 +20,7 @@ namespace RetailxAPI.Controllers
             var categories = await _categoryRepository.GetCategories();
             if (categories == null)
             {
-                return NotFound();
+                return Ok(new List<CategoryModel>());
             }
             return Ok(categories);
         }
@@ -30,7 +30,7 @@ namespace RetailxAPI.Controllers
             var category = await _categoryRepository.GetCategoryById(id);
             if (category == null)
             {
-                return NotFound();
+                return NotFound("Kayıt bulunamadı...");
             }
             return Ok(category);
         }

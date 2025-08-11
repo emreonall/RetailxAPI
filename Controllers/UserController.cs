@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
+using RetailxAPI.Data.Entities;
 using RetailxAPI.Data.Models;
 using RetailxAPI.Data.Repositories;
 
@@ -21,7 +23,7 @@ namespace RetailxAPI.Controllers
             var userList = await _userRepository.GetUsers();
             if (userList==null)
             {
-                return NotFound();
+                return Ok(new List<UserModel>());
             }
             return Ok(userList);
         }
@@ -33,7 +35,7 @@ namespace RetailxAPI.Controllers
             var user = await _userRepository.GetUserById(id);
             if (user == null)
             {
-                return NotFound();
+                return NotFound("Kullanıcı bulunamadı.");
             }
             return Ok(user);
         }
