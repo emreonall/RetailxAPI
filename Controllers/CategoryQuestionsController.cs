@@ -67,5 +67,47 @@ namespace RetailxAPI.Controllers
             }
             return BadRequest("Kayıt silinemedi.");
         }
+        [HttpPost("CreateSingleQuestion")]
+        public async Task<IActionResult> CreateCategoryQuestion([FromBody] CategoryQuestionsModel categoryQuestion)
+        {
+            if (categoryQuestion == null)
+            {
+                return BadRequest("Soru bilgileri boş olamaz.");
+            }
+            var result = await _categoryQuestionsRepository.CreateSingleQuestion(categoryQuestion);
+            if (result)
+            {
+                return Ok();
+            }
+            return BadRequest("Kayıt yapılamadı.");
+        }
+        [HttpDelete("DeleteSingleQuestion")]
+        public async Task<IActionResult> DeleteCategoryQuestion([FromBody] CategoryQuestionsModel categoryQuestion)
+        {
+            if (categoryQuestion == null)
+            {
+                return BadRequest("Silinecek soru bilgisi boş olamaz.");
+            }
+            var result = await _categoryQuestionsRepository.DeleteSingleQuestion(categoryQuestion);
+            if (result)
+            {
+                return Ok();
+            }
+            return BadRequest("Kayıt silinemedi.");
+        }
+        [HttpPut("UpdateSingleQuestion")]
+        public async Task<IActionResult> UpdateCategoryQuestion([FromBody] CategoryQuestionsModel categoryQuestion)
+        {
+            if (categoryQuestion == null )
+            {
+                return BadRequest("Güncellenecek soru bilgileri boş olamaz.");
+            }
+            var result = await _categoryQuestionsRepository.UpdateSingleQuestion(categoryQuestion);
+            if (result)
+            {
+                return Ok();
+            }
+            return BadRequest("Kayıt güncellenemedi.");
+        }
     }
 }

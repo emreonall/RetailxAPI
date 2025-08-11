@@ -128,6 +128,93 @@ namespace RetailxAPI.Data.Repositories
             {
                 return false;
             }
+        }
+        public async Task<bool> CreateSingleQuestion(CategoryQuestionsModel categoryQuestion)
+        {
+            try
+            {
+                CategoryQuestions entity = new CategoryQuestions
+                {
+                    CategoryID = categoryQuestion.CategoryID,
+                    RowOrder = categoryQuestion.RowOrder,
+                    QuestionType = categoryQuestion.QuestionType,
+                    Question = categoryQuestion.Question,
+                    Answer1 = categoryQuestion.Answer1,
+                    Answer2 = categoryQuestion.Answer2,
+                    Answer3 = categoryQuestion.Answer3,
+                    Answer4 = categoryQuestion.Answer4,
+                    Answer5 = categoryQuestion.Answer5,
+                    Answer1Puan = categoryQuestion.Answer1Puan,
+                    Answer2Puan = categoryQuestion.Answer2Puan,
+                    Answer3Puan = categoryQuestion.Answer3Puan,
+                    Answer4Puan = categoryQuestion.Answer4Puan,
+                    Answer5Puan = categoryQuestion.Answer5Puan
+                };
+
+                await _context.CategoryQuestions.AddAsync(entity);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+        public async Task<bool> UpdateSingleQuestion(CategoryQuestionsModel categoryQuestion)
+        {
+            var existing = await _context.CategoryQuestions
+                .Where(q => q.CategoryID.Equals(categoryQuestion.CategoryID) && q.RowOrder.Equals(categoryQuestion.RowOrder))
+                .FirstOrDefaultAsync();
+
+            if (existing != null)
+            {
+                existing.Question = categoryQuestion.Question;
+                existing.QuestionType = categoryQuestion.QuestionType;
+                existing.Answer1 = categoryQuestion.Answer1;
+                existing.Answer2 = categoryQuestion.Answer2;
+                existing.Answer3 = categoryQuestion.Answer3;
+                existing.Answer4 = categoryQuestion.Answer4;
+                existing.Answer5 = categoryQuestion.Answer5;
+                existing.Answer1Puan = categoryQuestion.Answer1Puan;
+                existing.Answer2Puan = categoryQuestion.Answer2Puan;
+                existing.Answer3Puan = categoryQuestion.Answer3Puan;
+                existing.Answer4Puan = categoryQuestion.Answer4Puan;
+                existing.Answer5Puan = categoryQuestion.Answer5Puan;
+                try
+                {
+                    await _context.SaveChangesAsync();
+                    return true;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false; // Record not found
+            }
+        }
+        public async Task<bool> DeleteSingleQuestion(CategoryQuestionsModel categoryQuestion)
+        {
+            var existing = await _context.CategoryQuestions
+              .Where(q => q.CategoryID.Equals(categoryQuestion.CategoryID) && q.RowOrder.Equals(categoryQuestion.RowOrder))
+              .FirstOrDefaultAsync();
+
+            if (existing == null)
+            {
+                return false; // Record not found
+            }
+            try
+            {
+                _context.CategoryQuestions.Remove(existing);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
 
 
         }
