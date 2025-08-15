@@ -21,7 +21,7 @@ namespace RetailxAPI.Controllers
             var result = await _userQformRepository.GetByQFormId(qFormId);
             if (result == null || !result.Any())
             {
-                return NotFound("No users found for the specified QForm ID.");
+                return Ok(new List<UserQFormModel>());
             }
             return Ok(result);
         }
