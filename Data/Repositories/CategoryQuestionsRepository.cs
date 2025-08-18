@@ -37,12 +37,16 @@ namespace RetailxAPI.Data.Repositories
         }
         public async Task<bool> CreateCategoryQuestion(List<CategoryQuestionsModel> categoryQuestions)
         {
+            var lastRowOrder = await _context.CategoryQuestions
+                .Where(q => q.CategoryID == categoryQuestions.First().CategoryID)
+                .Select(q =>  ((short)q.RowOrder))
+                .MaxAsync();
             try
             {
                 var entities = categoryQuestions.Select(q => new CategoryQuestions
                 {
                     CategoryID = q.CategoryID,
-                    RowOrder = q.RowOrder,
+                    RowOrder = (short)(lastRowOrder +1),
                     QuestionType = q.QuestionType,
                     Question = q.Question,
                     Answer1 = q.Answer1,
@@ -131,12 +135,16 @@ namespace RetailxAPI.Data.Repositories
         }
         public async Task<bool> CreateSingleQuestion(CategoryQuestionsModel categoryQuestion)
         {
+          var lastrowOrder = await _context.CategoryQuestions
+                .Where(q => q.CategoryID == categoryQuestion.CategoryID)
+                .Select(q => ((short)q.RowOrder))
+                .MaxAsync();
             try
             {
                 CategoryQuestions entity = new CategoryQuestions
                 {
                     CategoryID = categoryQuestion.CategoryID,
-                    RowOrder = categoryQuestion.RowOrder,
+                    RowOrder = (short)(lastrowOrder + 1),
                     QuestionType = categoryQuestion.QuestionType,
                     Question = categoryQuestion.Question,
                     Answer1 = categoryQuestion.Answer1,
